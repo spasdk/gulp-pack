@@ -1,0 +1,28 @@
+{
+    "name": "spa-gulp-pack",
+    "version": "1.3.0",
+    "description": "Pack files into a zip archive.",
+    "author": {
+        "name": "Stanislav Kalashnik",
+        "email": "darkpark.main@gmail.com"
+    },
+    "repository": "spasdk/gulp-pack",
+    "scripts": {
+        "lint": "eslint *.js",
+        "jsdoc": "jsdoc --destination doc *.js readme.md"
+    },
+    "dependencies": {
+        "yazl": "2.*.*",
+        "spa-gulp": "1.*.*"
+    },
+    "keywords": [
+        "spa",
+        "spasdk",
+        "framework",
+        "gulp",
+        "develop",
+        "task",
+        "pack"
+    ],
+    "license": "GPL-3.0"
+}
