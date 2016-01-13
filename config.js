@@ -7,24 +7,21 @@
 
 'use strict';
 
-// public
+// set of named configs for corresponding gulp tasks
+// each profile inherits all options from the "default" profile
 module.exports = {
-    // set of named configs for corresponding gulp tasks
-    // each profile inherits all options from the "default" profile
-    profiles: {
-        // config to be extended by other profiles
-        default: {
+    // config to be extended by other profiles
+    default: {
 
-        },
+    },
 
-        // config for pack:build:develop task
-        develop: {
+    // config for pack:build:develop task
+    develop: {
 
-        },
+    },
 
-        // config for pack:build:release task
-        release: {
+    // config for pack:build:release task
+    release: {
 
-        }
     }
 };
