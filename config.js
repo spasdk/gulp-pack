@@ -10,18 +10,13 @@
 // set of named configs for corresponding gulp tasks
 // each profile inherits all options from the "default" profile
 module.exports = {
-    // config to be extended by other profiles
     default: {
-
+        // create watch task
+        // to automatically rebuild on source files change
+        watch: false
     },
 
-    // config for pack:build:develop task
     develop: {
-
-    },
-
-    // config for pack:build:release task
-    release: {
 
     }
 };
