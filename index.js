@@ -19,6 +19,13 @@ var path    = require('path'),
     title   = 'pack    '.inverse;
 
 
+// task set was turned off in gulp.js
+if ( !config ) {
+    // do not create tasks
+    return;
+}
+
+
 // remove all generated zip files
 gulp.task('pack:clean', function () {
     return del([path.join(process.env.PATH_ROOT, util.format(zipName, '*', '*', '*'))]);
