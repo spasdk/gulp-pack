@@ -7,9 +7,13 @@
 
 'use strict';
 
-// set of named configs for corresponding gulp tasks
+var extend = require('extend'),
+    config = require('spa-gulp/config');
+
+
+// base config
 // each profile inherits all options from the "default" profile
-module.exports = {
+module.exports = extend(true, {}, config, {
     default: {
         // create watch task
         // to automatically rebuild on source files change
@@ -19,4 +23,4 @@ module.exports = {
     develop: {
 
     }
-};
+});
