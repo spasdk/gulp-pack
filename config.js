@@ -15,9 +15,7 @@ var extend = require('extend'),
 // each profile inherits all options from the "default" profile
 module.exports = extend(true, {}, config, {
     default: {
-        // create watch task
-        // to automatically rebuild on source files change
-        watch: false
+
     },
 
     develop: {
