@@ -24,18 +24,39 @@ module.exports = extend(true, {}, config, {
             '!' + path.join(config.default.targetPath, '**', 'readme.md')
         ],
 
+        // directory to store output files
+        targetPath: '',
+
+        // intended output file name
+        targetFile: '${name}.${version}.release.zip',
+
         // use compression for output file
-        compress: true
+        compress: true,
+
+        // info channels
+        notifications: {
+            popup: {
+                info: {
+                    icon: path.join(__dirname, 'media', 'info.png')
+                },
+                warn: {
+                    icon: path.join(__dirname, 'media', 'warn.png')
+                },
+                fail: {
+                    icon: path.join(__dirname, 'media', 'fail.png')
+                }
+            }
+        }
     },
 
     develop: {
-        // array of file globs to process
-        // see format in https://github.com/isaacs/node-glob
         sourceFile: [
             path.join(config.default.targetPath, '**', '*'),
             '!' + path.join(config.default.targetPath, 'index.html'),
             '!' + path.join(config.default.targetPath, '**', 'release.*'),
             '!' + path.join(config.default.targetPath, '**', 'readme.md')
-        ]
+        ],
+
+        targetFile: '${name}.${version}.${profile}.zip'
     }
 });
