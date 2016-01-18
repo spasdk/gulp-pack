@@ -1,12 +1,12 @@
 {
-    "name": "spa-gulp-pack",
+    "name": "spa-gulp-zip",
     "version": "1.3.0",
     "description": "Pack files into a zip archive.",
     "author": {
         "name": "Stanislav Kalashnik",
         "email": "darkpark.main@gmail.com"
     },
-    "repository": "spasdk/gulp-pack",
+    "repository": "spasdk/gulp-zip",
     "scripts": {
         "lint": "eslint *.js",
         "jsdoc": "jsdoc --destination doc *.js readme.md"
