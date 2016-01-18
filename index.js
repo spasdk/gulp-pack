@@ -18,11 +18,11 @@ var path    = require('path'),
 
 // rework profile
 plugin.prepare = function ( name ) {
-    var data = this.config[name];
+    var profile = this.config[name];
 
-    data.target = data.target.replace(/\$\{name}/g,    this.package.name);
-    data.target = data.target.replace(/\$\{version}/g, this.package.version);
-    data.target = data.target.replace(/\$\{profile}/g, name);
+    profile.target = profile.target.replace(/\$\{name}/g,    this.package.name);
+    profile.target = profile.target.replace(/\$\{version}/g, this.package.version);
+    profile.target = profile.target.replace(/\$\{profile}/g, name);
 };
 
 
