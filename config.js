@@ -18,17 +18,14 @@ module.exports = extend(true, {}, config, {
     default: {
         // array of file globs to process
         // see format in https://github.com/isaacs/node-glob
-        sourceFile: [
-            path.join(config.default.targetPath, '**', '*'),
-            '!' + path.join(config.default.targetPath, '**', 'develop.*'),
-            '!' + path.join(config.default.targetPath, '**', 'readme.md')
+        source: [
+            path.join(config.default.target, '**', '*'),
+            '!' + path.join(config.default.target, '**', 'develop.*'),
+            '!' + path.join(config.default.target, '**', 'readme.md')
         ],
 
-        // directory to store output files
-        targetPath: '',
-
         // intended output file name
-        targetFile: '${name}.${version}.release.zip',
+        target: '${name}.${version}.release.zip',
 
         // use compression for output file
         compress: true,
@@ -50,13 +47,13 @@ module.exports = extend(true, {}, config, {
     },
 
     develop: {
-        sourceFile: [
-            path.join(config.default.targetPath, '**', '*'),
-            '!' + path.join(config.default.targetPath, 'index.html'),
-            '!' + path.join(config.default.targetPath, '**', 'release.*'),
-            '!' + path.join(config.default.targetPath, '**', 'readme.md')
+        source: [
+            path.join(config.default.target, '**', '*'),
+            '!' + path.join(config.default.target, 'index.html'),
+            '!' + path.join(config.default.target, '**', 'release.*'),
+            '!' + path.join(config.default.target, '**', 'readme.md')
         ],
 
-        targetFile: '${name}.${version}.${profile}.zip'
+        target: '${name}.${version}.${profile}.zip'
     }
 });

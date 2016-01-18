@@ -20,34 +20,30 @@ var path    = require('path'),
 plugin.prepare = function ( name ) {
     var data = this.config[name];
 
-    data.targetFile = data.targetFile.replace(/\$\{name}/g,    this.package.name);
-    data.targetFile = data.targetFile.replace(/\$\{version}/g, this.package.version);
-    data.targetFile = data.targetFile.replace(/\$\{profile}/g, name);
+    data.target = data.target.replace(/\$\{name}/g,    this.package.name);
+    data.target = data.target.replace(/\$\{version}/g, this.package.version);
+    data.target = data.target.replace(/\$\{profile}/g, name);
 };
 
 
 // create tasks for profiles
 plugin.profiles.forEach(function ( profile ) {
-    var targetFile;
-
     // add vars
     plugin.prepare(profile.name);
-
-    targetFile = path.join(profile.data.targetPath, profile.data.targetFile);
 
     // pack + watch
     profile.watch(profile.task(plugin.entry, function () {
         return gulp
-            .src(profile.data.sourceFile || []/*, {base: process.env.PATH_APP}*/)
+            .src(profile.data.source)
             .pipe(plumber())
-            .pipe(zip(profile.data.targetFile, {compress: profile.data.compress}))
-            .pipe(gulp.dest(profile.data.targetPath))
+            .pipe(zip(path.basename(profile.data.target), {compress: profile.data.compress}))
+            .pipe(gulp.dest(path.dirname(profile.data.target)))
             .on('end', function () {
                 // success
                 profile.notify({
-                    info: 'write '.green + targetFile,
+                    info: 'write '.green + profile.data.target,
                     title: plugin.entry,
-                    message: targetFile
+                    message: profile.data.target
                 });
             })
             .on('error', function ( error ) {
@@ -62,13 +58,12 @@ plugin.profiles.forEach(function ( profile ) {
 
     // remove the generated file
     profile.task('clean', function () {
-        var files = del.sync([targetFile]);
-
-        if ( files.length ) {
+        if ( del.sync([profile.data.target]).length ) {
+            // something was removed
             profile.notify({
-                info: 'delete '.green + targetFile,
+                info: 'delete '.green + profile.data.target,
                 title: 'clean',
-                message: targetFile
+                message: profile.data.target
             });
         }
     });
