@@ -8,68 +8,72 @@
 'use strict';
 
 var path    = require('path'),
-    util    = require('util'),
     gulp    = require('gulp'),
-    log     = require('gulp-util').log,
     plumber = require('gulp-plumber'),
     zip     = require('gulp-zip'),
     del     = require('del'),
-    load    = require('require-nocache')(module),
-    zipName = '%s.%s.%s.zip',
-    title   = 'pack    '.inverse;
+    Plugin  = require('spa-gulp/lib/plugin'),
+    plugin  = new Plugin({name: 'zip', entry: 'pack', context: module});
 
 
-// task set was turned off in gulp.js
-if ( !config ) {
-    // do not create tasks
-    return;
-}
+// rework profile
+plugin.prepare = function ( name ) {
+    var data = this.config[name];
+
+    data.targetFile = data.targetFile.replace(/\$\{name}/g,    this.package.name);
+    data.targetFile = data.targetFile.replace(/\$\{version}/g, this.package.version);
+    data.targetFile = data.targetFile.replace(/\$\{profile}/g, name);
+};
 
 
-// remove all generated zip files
-gulp.task('pack:clean', function () {
-    return del([path.join(process.env.PATH_ROOT, util.format(zipName, '*', '*', '*'))]);
+// create tasks for profiles
+plugin.profiles.forEach(function ( profile ) {
+    var targetFile;
+
+    // add vars
+    plugin.prepare(profile.name);
+
+    targetFile = path.join(profile.data.targetPath, profile.data.targetFile);
+
+    // pack + watch
+    profile.watch(profile.task(plugin.entry, function () {
+        return gulp
+            .src(profile.data.sourceFile || []/*, {base: process.env.PATH_APP}*/)
+            .pipe(plumber())
+            .pipe(zip(profile.data.targetFile, {compress: profile.data.compress}))
+            .pipe(gulp.dest(profile.data.targetPath))
+            .on('end', function () {
+                // success
+                profile.notify({
+                    info: 'write '.green + targetFile,
+                    title: plugin.entry,
+                    message: targetFile
+                });
+            })
+            .on('error', function ( error ) {
+                // failure
+                profile.notify({
+                    type: 'fail',
+                    title: plugin.entry,
+                    message: error.toString()
+                });
+            });
+    }));
+
+    // remove the generated file
+    profile.task('clean', function () {
+        var files = del.sync([targetFile]);
+
+        if ( files.length ) {
+            profile.notify({
+                info: 'delete '.green + targetFile,
+                title: 'clean',
+                message: targetFile
+            });
+        }
+    });
 });
 
 
-// create archive
-gulp.task('pack:develop', function () {
-    var pkgInfo = load(process.env.PACKAGE),
-        outFile = util.format(zipName, pkgInfo.name, pkgInfo.version, 'develop');
-
-    log(title, 'create archive: ' +  outFile.bold);
-
-    return gulp
-        .src([
-            path.join(process.env.PATH_APP, '**', '*'),
-            '!' + path.join(process.env.PATH_APP, 'index.html'),
-            '!' + path.join(process.env.PATH_APP, '**', 'release.*'),
-            '!' + path.join(process.env.PATH_APP, '**', 'readme.md')
-        ], {base: process.env.PATH_APP})
-        .pipe(plumber())
-        .pipe(zip(outFile))
-        .pipe(gulp.dest(process.env.PATH_ROOT));
-});
-
-
-// create archive
-gulp.task('pack:release', function () {
-    var pkgInfo = load(process.env.PACKAGE),
-        outFile = util.format(zipName, pkgInfo.name, pkgInfo.version, 'release');
-
-    log(title, 'create archive: ' +  outFile.bold);
-
-    return gulp
-        .src([
-            path.join(process.env.PATH_APP, '**', '*'),
-            '!' + path.join(process.env.PATH_APP, '**', 'develop.*'),
-            '!' + path.join(process.env.PATH_APP, '**', 'readme.md')
-        ], {base: process.env.PATH_APP})
-        .pipe(plumber())
-        .pipe(zip(outFile))
-        .pipe(gulp.dest(process.env.PATH_ROOT));
-});
-
-
-// create all archives
-gulp.task('pack', ['pack:develop', 'pack:release']);
+// public
+module.exports = plugin;
