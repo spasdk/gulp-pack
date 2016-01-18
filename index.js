@@ -31,30 +31,32 @@ plugin.profiles.forEach(function ( profile ) {
     // add vars
     plugin.prepare(profile.name);
 
-    // pack + watch
-    profile.watch(profile.task(plugin.entry, function () {
-        return gulp
-            .src(profile.data.source)
-            .pipe(plumber())
-            .pipe(zip(path.basename(profile.data.target), {compress: profile.data.compress}))
-            .pipe(gulp.dest(path.dirname(profile.data.target)))
-            .on('end', function () {
-                // success
-                profile.notify({
-                    info: 'write '.green + profile.data.target,
-                    title: plugin.entry,
-                    message: profile.data.target
+    profile.watch(
+        // main entry task
+        profile.task(plugin.entry, function () {
+            return gulp
+                .src(profile.data.source)
+                .pipe(plumber())
+                .pipe(zip(path.basename(profile.data.target), {compress: profile.data.compress}))
+                .pipe(gulp.dest(path.dirname(profile.data.target)))
+                .on('end', function () {
+                    // success
+                    profile.notify({
+                        info: 'write '.green + profile.data.target,
+                        title: plugin.entry,
+                        message: profile.data.target
+                    });
+                })
+                .on('error', function ( error ) {
+                    // failure
+                    profile.notify({
+                        type: 'fail',
+                        title: plugin.entry,
+                        message: error.toString()
+                    });
                 });
-            })
-            .on('error', function ( error ) {
-                // failure
-                profile.notify({
-                    type: 'fail',
-                    title: plugin.entry,
-                    message: error.toString()
-                });
-            });
-    }));
+        })
+    );
 
     // remove the generated file
     profile.task('clean', function () {
