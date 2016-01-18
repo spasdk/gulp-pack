@@ -7,7 +7,8 @@
 
 'use strict';
 
-var extend = require('extend'),
+var path   = require('path'),
+    extend = require('extend'),
     config = require('spa-gulp/config');
 
 
@@ -15,10 +16,26 @@ var extend = require('extend'),
 // each profile inherits all options from the "default" profile
 module.exports = extend(true, {}, config, {
     default: {
+        // array of file globs to process
+        // see format in https://github.com/isaacs/node-glob
+        sourceFile: [
+            path.join(config.default.targetPath, '**', '*'),
+            '!' + path.join(config.default.targetPath, '**', 'develop.*'),
+            '!' + path.join(config.default.targetPath, '**', 'readme.md')
+        ],
 
+        // use compression for output file
+        compress: true
     },
 
     develop: {
-
+        // array of file globs to process
+        // see format in https://github.com/isaacs/node-glob
+        sourceFile: [
+            path.join(config.default.targetPath, '**', '*'),
+            '!' + path.join(config.default.targetPath, 'index.html'),
+            '!' + path.join(config.default.targetPath, '**', 'release.*'),
+            '!' + path.join(config.default.targetPath, '**', 'readme.md')
+        ]
     }
 });
