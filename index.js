@@ -42,7 +42,7 @@ plugin.profiles.forEach(function ( profile ) {
                 .on('end', function () {
                     // success
                     profile.notify({
-                        info: 'write '.green + profile.data.target,
+                        info: 'write '.green + profile.data.target.bold,
                         title: plugin.entry,
                         message: profile.data.target
                     });
@@ -63,7 +63,7 @@ plugin.profiles.forEach(function ( profile ) {
         if ( del.sync([profile.data.target]).length ) {
             // something was removed
             profile.notify({
-                info: 'delete '.green + profile.data.target,
+                info: 'delete '.green + profile.data.target.bold,
                 title: 'clean',
                 message: profile.data.target
             });
