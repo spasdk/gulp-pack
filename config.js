@@ -7,9 +7,11 @@
 
 'use strict';
 
-var path     = require('path'),
+var util     = require('util'),
+    path     = require('path'),
     extend   = require('extend'),
     config   = require('spa-gulp/config'),
+    pkgData  = require(path.join(process.cwd(), 'package.json')),
     profiles = {};
 
 
@@ -24,7 +26,7 @@ profiles.default = extend(true, {}, config, {
     ],
 
     // intended output file name
-    target: '${name}.${version}.release.zip',
+    target: util.format('%s.%s.release.zip', pkgData.name, pkgData.version),
 
     // use compression for output file
     compress: true,
@@ -48,7 +50,7 @@ profiles.develop = extend(true, {}, profiles.default, {
         '!' + path.join(config.target, '**', 'readme.md')
     ],
 
-    target: '${name}.${version}.${profile}.zip'
+    target: util.format('%s.%s.develop.zip', pkgData.name, pkgData.version)
 });
 
 

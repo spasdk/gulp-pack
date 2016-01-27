@@ -17,19 +17,19 @@ var path    = require('path'),
 
 
 // rework profile
-plugin.prepare = function ( name ) {
-    var profile = this.config[name];
-
-    profile.target = profile.target.replace(/\$\{name}/g,    this.package.name);
-    profile.target = profile.target.replace(/\$\{version}/g, this.package.version);
-    profile.target = profile.target.replace(/\$\{profile}/g, name);
-};
+//plugin.prepare = function ( name ) {
+//    var profile = this.config[name];
+//
+//    profile.target = profile.target.replace(/\$\{name}/g,    this.package.name);
+//    profile.target = profile.target.replace(/\$\{version}/g, this.package.version);
+//    profile.target = profile.target.replace(/\$\{profile}/g, name);
+//};
 
 
 // create tasks for profiles
 plugin.profiles.forEach(function ( profile ) {
     // add vars
-    plugin.prepare(profile.name);
+    //plugin.prepare(profile.name);
 
     profile.watch(
         // main entry task
