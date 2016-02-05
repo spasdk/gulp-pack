@@ -10,7 +10,7 @@
 var util     = require('util'),
     path     = require('path'),
     extend   = require('extend'),
-    config   = require('spa-gulp/config'),
+    config   = require('spasdk/config'),
     pkgData  = require(path.join(process.cwd(), 'package.json')),
     profiles = {};
 

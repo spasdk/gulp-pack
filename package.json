@@ -12,11 +12,9 @@
         "jsdoc": "jsdoc --destination doc *.js readme.md"
     },
     "dependencies": {
-        "del": "2.*.*",
         "extend": "3.*.*",
         "gulp-zip": "3.*.*",
-        "gulp-plumber": "1.*.*",
-        "spa-gulp": "spasdk/gulp"
+        "gulp-plumber": "1.*.*"
     },
     "keywords": [
         "spa",
