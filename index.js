@@ -7,13 +7,13 @@
 
 'use strict';
 
-var path    = require('path'),
+var fs      = require('fs'),
+    path    = require('path'),
     gulp    = require('gulp'),
     plumber = require('gulp-plumber'),
     zip     = require('gulp-zip'),
-    del     = require('del'),
-    Plugin  = require('spa-gulp/lib/plugin'),
-    plugin  = new Plugin({name: 'zip', entry: 'pack', context: module});
+    Plugin  = require('spasdk/lib/plugin'),
+    plugin  = new Plugin({name: 'zip', entry: 'pack', config: require('./config')});
 
 
 // rework profile
@@ -59,15 +59,26 @@ plugin.profiles.forEach(function ( profile ) {
     );
 
     // remove the generated file
-    profile.task('clean', function () {
-        if ( del.sync([profile.data.target]).length ) {
-            // something was removed
+    profile.task('clean', function ( done ) {
+        fs.unlink(profile.data.target, function ( error ) {
             profile.notify({
-                info: 'delete '.green + profile.data.target.bold,
+                type: error ? 'warn' : 'info',
+                info: error ? error.toString().red : 'delete '.green + profile.data.target.bold,
                 title: 'clean',
-                message: profile.data.target
+                message: error ? error.toString() : profile.data.target
             });
-        }
+
+            done();
+        });
+
+        //if ( del.sync([profile.data.target]).length ) {
+        //    // something was removed
+        //    profile.notify({
+        //        info: 'delete '.green + profile.data.target.bold,
+        //        title: 'clean',
+        //        message: profile.data.target
+        //    });
+        //}
     });
 });
 
