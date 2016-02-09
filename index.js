@@ -40,9 +40,8 @@ plugin.profiles.forEach(function ( profile ) {
                 .on('end', function () {
                     // success
                     profile.notify({
-                        info: 'write '.green + profile.data.target.bold,
                         title: plugin.entry,
-                        message: profile.data.target
+                        message: 'write ' + profile.data.target
                     });
                 })
                 .on('error', function ( error ) {
@@ -50,7 +49,7 @@ plugin.profiles.forEach(function ( profile ) {
                     profile.notify({
                         type: 'fail',
                         title: plugin.entry,
-                        message: error.toString()
+                        message: error
                     });
                 });
         })
@@ -61,9 +60,8 @@ plugin.profiles.forEach(function ( profile ) {
         fs.unlink(profile.data.target, function ( error ) {
             profile.notify({
                 type: error ? 'warn' : 'info',
-                info: error ? error.toString().red : 'delete '.green + profile.data.target.bold,
                 title: 'clean',
-                message: error ? error.toString() : profile.data.target
+                message: error || ('delete ' + profile.data.target)
             });
 
             done();
