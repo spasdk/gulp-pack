@@ -41,7 +41,7 @@ plugin.profiles.forEach(function ( profile ) {
                     // success
                     profile.notify({
                         title: plugin.entry,
-                        message: 'write ' + profile.data.target
+                        info: 'write ' + profile.data.target
                     });
                 })
                 .on('error', function ( error ) {
@@ -49,7 +49,7 @@ plugin.profiles.forEach(function ( profile ) {
                     profile.notify({
                         type: 'fail',
                         title: plugin.entry,
-                        message: error
+                        message: error.message
                     });
                 });
         })
@@ -61,7 +61,8 @@ plugin.profiles.forEach(function ( profile ) {
             profile.notify({
                 type: error ? 'warn' : 'info',
                 title: 'clean',
-                message: error || ('delete ' + profile.data.target)
+                info: 'delete ' + profile.data.target,
+                message: error ? error.message : ''
             });
 
             done();
