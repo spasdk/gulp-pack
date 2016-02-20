@@ -29,7 +29,7 @@ plugin.profiles.forEach(function ( profile ) {
     // add vars
     //plugin.prepare(profile.name);
 
-    profile.watch(
+    profile.watch('', profile.data.watch,
         // main entry task
         profile.task(plugin.entry, function () {
             return gulp
