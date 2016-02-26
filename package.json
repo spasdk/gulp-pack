@@ -20,10 +20,10 @@
         "spa",
         "spasdk",
         "framework",
-        "gulp",
         "develop",
-        "task",
-        "pack"
+        "plugin",
+        "pack",
+        "zip"
     ],
     "license": "GPL-3.0"
 }
