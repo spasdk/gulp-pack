@@ -8,7 +8,7 @@
 var util     = require('util'),
     path     = require('path'),
     extend   = require('extend'),
-    config   = require('spasdk/config'),
+    config   = require('spa-plugin/config'),
     pkgData  = require(path.join(process.cwd(), 'package.json')),
     profiles = {};
 
