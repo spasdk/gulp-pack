@@ -14,7 +14,7 @@ var util     = require('util'),
 
 
 // main
-profiles.default = extend(true, {}, config, {
+profiles.release = extend(true, {}, config, {
     // array of file globs to process
     // see format in https://github.com/isaacs/node-glob
     source: [
@@ -40,7 +40,7 @@ profiles.default = extend(true, {}, config, {
 });
 
 
-profiles.develop = extend(true, {}, profiles.default, {
+profiles.develop = extend(true, {}, profiles.release, {
     source: [
         path.join(config.target, '**', '*'),
         '!' + path.join(config.target, 'index.html'),
