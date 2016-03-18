@@ -43,7 +43,7 @@ profiles.release = extend(true, {}, config, {
 profiles.develop = extend(true, {}, profiles.release, {
     source: [
         path.join(config.target, '**', '*'),
-        '!' + path.join(config.target, 'index.html'),
+        '!' + path.join(config.target, 'release.html'),
         '!' + path.join(config.target, '**', 'release.*'),
         '!' + path.join(config.target, '**', 'readme.md')
     ],
